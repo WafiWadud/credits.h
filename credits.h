@@ -239,6 +239,31 @@
 #endif
 
 /**
+ * COMPILER DETECTION
+ *
+ * Identifies the compiler and its version using predefined macros.
+ *
+ * Supported compilers:
+ *   - Clang
+ *   - GCC
+ *   - MSVC
+ *   - Intel ICC
+ *   - Intel oneAPI (ICX)
+ *   - TinyCC
+ *   - Zig
+ */
+
+#if defined(__clang__)
+#define COMPILER_STR "Clang " __VERSION__
+#elif defined(__GNUC__)
+#define COMPILER_STR "GCC " __VERSION__
+#elif defined(_MSC_VER)
+#define COMPILER_STR "MSVC " STR(_MSC_VER)
+#elif defined(__TINYC__)
+#define COMPILER_STR "TinyCC " STR(__TINYC__)
+#endif
+
+/**
  * CREDITS OUTPUT MACRO
  *
  * Composes a multi-line string literal containing build information.
@@ -249,19 +274,18 @@
  *   Made by Wafi Nashwan Wadud.
  *
  *   Compiled from [source_file] on [date] at [time]
- *   using [POSIX_version] [compiler_version] with [C_standard]
+ *   using [POSIX_version] [compiler_name] [compiler_version] with [C_standard]
  *   for [endianness]-endian [architecture] [operating_system].
  *
  * Built-in preprocessor macros used:
  *   - __FILE__: Source file path
  *   - __DATE__: Compilation date (e.g., "Jan 30 2026")
  *   - __TIME__: Compilation time (e.g., "14:23:45")
- *   - __VERSION__: Compiler version string
  */
 #define CREDITS                                                                \
   "Made by Wafi Nashwan Wadud.\n\n"                                            \
   "Compiled from " __FILE__ " on " __DATE__ " at " __TIME__ "\n"               \
-  "using " POSIX_STR " " __VERSION__ " with " C_VERSION " standard\n"          \
+  "using " POSIX_STR " " COMPILER_STR " with " C_VERSION " standard\n"         \
   "for " ENDIAN_STR "-endian " ARCH_STR " " OS_STR ".\n"
 
 #endif // TIME_H
